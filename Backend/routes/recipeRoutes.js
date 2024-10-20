@@ -1,6 +1,7 @@
 const express = require('express');
 const { getRecipesByCategory, getRecipeDetails, getAllMealCategories } = require('../controllers/recipeController');
 const auth = require('../middleware/auth');
+const { body, param } = require('express-validator');
 const router = express.Router();
 
 router.get('/categories', getAllMealCategories);

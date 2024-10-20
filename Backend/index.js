@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const helmet = require('helmet');  // Import helmet
 const userRoutes = require('./routes/userRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
 
@@ -9,6 +10,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
+app.use(helmet());  // Use helmet to secure headers
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
