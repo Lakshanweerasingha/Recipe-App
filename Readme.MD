@@ -1,1 +1,1 @@
-This is Recipe App
+This is recipe app
