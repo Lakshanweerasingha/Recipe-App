@@ -1,26 +1,14 @@
 const axios = require('axios');
 
 
-// Get categories
-exports.getCategories = async (req, res) => {
+exports.getAllMealCategories = async (req, res) => {
     try {
       const response = await axios.get('https://www.themealdb.com/api/json/v1/1/categories.php');
-      const categories = response.data.categories;
-  
-      // Format the data if needed before sending the response
-      const formattedCategories = categories.map(category => ({
-        idCategory: category.idCategory,
-        strCategory: category.strCategory,
-        strCategoryThumb: category.strCategoryThumb,
-        strCategoryDescription: category.strCategoryDescription
-      }));
-  
-      res.json(formattedCategories);
+      res.json(response.data);
     } catch (error) {
-      res.status(500).json({ msg: 'Error fetching categories' });
+      res.status(500).json({ msg: 'Error fetching meal categories' });
     }
   };
-
   
 // Get recipes by category
 exports.getRecipesByCategory = async (req, res) => {
