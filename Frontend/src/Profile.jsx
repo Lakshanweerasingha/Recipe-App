@@ -5,6 +5,7 @@ import MealCategories from './MealCategories'; // Import the MealCategories comp
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]); // State for storing favorite recipes
+  const [selectedRecipe, setSelectedRecipe] = useState(null); // State to track the clicked recipe
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const Profile = () => {
         .then((data) => {
           setUser(data); // Set user data
           // Fetch favorite recipes after setting user data
-          fetchFavoriteRecipes(); 
+          fetchFavoriteRecipes();
         })
         .catch(() => {
           navigate('/login'); // Redirect to login if token is invalid
@@ -73,6 +74,15 @@ const Profile = () => {
     });
   };
 
+  // Toggle recipe details visibility
+  const handleRecipeClick = (recipe) => {
+    if (selectedRecipe && selectedRecipe.idMeal === recipe.idMeal) {
+      setSelectedRecipe(null); // If the clicked recipe is already selected, collapse it
+    } else {
+      setSelectedRecipe(recipe); // Otherwise, set the clicked recipe to show its details
+    }
+  };
+
   return (
     <div>
       {user ? (
@@ -80,33 +90,45 @@ const Profile = () => {
           <h2>Profile</h2>
           <p>Username: {user.username}</p>
           <p>Email: {user.email}</p>
-          
+
           {/* Include the Meal Categories */}
           <h3>Meal Categories</h3>
-          <MealCategories />  {/* Render the MealCategories component */}
-          
+          <MealCategories /> {/* Render the MealCategories component */}
+
           {/* Display favorite recipes */}
           <h3>Favorite Recipes</h3>
           {favoriteRecipes.length > 0 ? (
             <ul>
               {favoriteRecipes.map((recipe) => (
                 <li key={recipe.idMeal}>
-                  <h4>{recipe.strMeal}</h4>
-                  <p>Category: {recipe.strCategory}</p>
-                  <p>Area: {recipe.strArea}</p>
-                  <p>Ingredients:</p>
-                  <ul>
-                    {Object.keys(recipe)
-                      .filter((key) => key.startsWith('strIngredient') && recipe[key])
-                      .map((ingredientKey) => (
-                        <li key={ingredientKey}>
-                          {recipe[ingredientKey]} ({recipe[`strMeasure${ingredientKey.slice(-1)}`]})
-                        </li>
-                      ))}
-                  </ul>
-                  <p>{recipe.strInstructions}</p>
-                  <img src={recipe.strMealThumb} alt={recipe.strMeal} />
-                  <a href={recipe.strYoutube} target="_blank" rel="noopener noreferrer">Watch Recipe Video</a>
+                  <h4
+                    style={{ cursor: 'pointer', color: 'blue' }}
+                    onClick={() => handleRecipeClick(recipe)} // When recipe name is clicked
+                  >
+                    {recipe.strMeal}
+                  </h4>
+                  {/* Show details if the recipe is selected */}
+                  {selectedRecipe && selectedRecipe.idMeal === recipe.idMeal && (
+                    <div>
+                      <p>Category: {recipe.strCategory}</p>
+                      <p>Area: {recipe.strArea}</p>
+                      <p>Ingredients:</p>
+                      <ul>
+                        {Object.keys(recipe)
+                          .filter((key) => key.startsWith('strIngredient') && recipe[key])
+                          .map((ingredientKey) => (
+                            <li key={ingredientKey}>
+                              {recipe[ingredientKey]} ({recipe[`strMeasure${ingredientKey.slice(-1)}`]})
+                            </li>
+                          ))}
+                      </ul>
+                      <p>{recipe.strInstructions}</p>
+                      <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+                      <a href={recipe.strYoutube} target="_blank" rel="noopener noreferrer">
+                        Watch Recipe Video
+                      </a>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
