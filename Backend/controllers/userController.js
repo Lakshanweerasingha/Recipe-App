@@ -71,15 +71,24 @@ exports.login = [
   },
 ];
 
+// controllers/userController.js
+
+
 // Get user profile
+// controllers/userController.js
 exports.getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id).select('-password'); // Ensure you're using req.user.id
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
     res.json(user);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ msg: 'Server error' });
   }
 };
+
 
 // Add favorite recipe
 exports.addFavoriteRecipe = async (req, res) => {
@@ -102,6 +111,26 @@ exports.addFavoriteRecipe = async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 };
+
+
+// Get favorite recipes for the logged-in user
+exports.getFavoriteRecipes = async (req, res) => {
+  try {
+    // Find the user by their ID
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    // Send back the favoriteRecipes array with only the recipe IDs
+    res.json({ favoriteRecipes: user.favoriteRecipes });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+
 
 // Remove favorite recipe
 exports.removeFavoriteRecipe = async (req, res) => {
