@@ -7,6 +7,7 @@ const RecipesByCategory = () => {
   const [recipes, setRecipes] = useState([]);
   const [error, setError] = useState(null);
   const [favorites, setFavorites] = useState([]);
+  const [favoriteLabels, setFavoriteLabels] = useState({}); // Object to track favorite labels
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +36,12 @@ const RecipesByCategory = () => {
         });
         const data = await response.json();
         setFavorites(data.favoriteRecipes || []);
+        // Set initial label states based on favorite status
+        const initialLabels = {};
+        data.favoriteRecipes?.forEach((recipeID) => {
+          initialLabels[recipeID] = 'Remove from Favorites';
+        });
+        setFavoriteLabels(initialLabels);
       } catch (error) {
         setError('Failed to load favorites');
       }
@@ -44,7 +51,24 @@ const RecipesByCategory = () => {
     fetchFavorites();
   }, [category, navigate]);
 
-  // Add to favorites function
+  const toggleFavorite = async (recipeID) => {
+    const isFavorite = favorites.includes(recipeID);
+
+    if (isFavorite) {
+      // Remove from favorites
+      await removeFromFavorites(recipeID);
+    } else {
+      // Add to favorites
+      await addToFavorites(recipeID);
+    }
+
+    // Toggle the button label after the API call
+    setFavoriteLabels((prevLabels) => ({
+      ...prevLabels,
+      [recipeID]: isFavorite ? 'Add to Favorites' : 'Remove from Favorites',
+    }));
+  };
+
   const addToFavorites = async (recipeID) => {
     try {
       const response = await fetch('http://localhost:5000/api/users/favorites', {
@@ -64,7 +88,6 @@ const RecipesByCategory = () => {
     }
   };
 
-  // Remove from favorites function
   const removeFromFavorites = async (recipeID) => {
     try {
       const response = await fetch(`http://localhost:5000/api/users/favorites/${recipeID}`, {
@@ -88,15 +111,9 @@ const RecipesByCategory = () => {
         {recipes && recipes.map((recipe, index) => (
           <li key={index}>
             <Link to={`/recipe/details/${recipe.idMeal}`}>{recipe.strMeal}</Link>
-            {favorites.includes(recipe.idMeal) ? (
-              <button onClick={() => removeFromFavorites(recipe.idMeal)}>
-                Remove from Favorites
-              </button>
-            ) : (
-              <button onClick={() => addToFavorites(recipe.idMeal)}>
-                Add to Favorites
-              </button>
-            )}
+            <button onClick={() => toggleFavorite(recipe.idMeal)}>
+              {favoriteLabels[recipe.idMeal] || 'Add to Favorites'}
+            </button>
           </li>
         ))}
       </ul>

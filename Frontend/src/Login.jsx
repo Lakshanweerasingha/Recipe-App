@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';  // Import the CSS file
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -31,23 +32,34 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="login-container">
+      {/* Add a logo placeholder or import your actual logo */}
+      <div className="logo">
+        <img src="/path/to/your/logo.png" alt="Logo" />
+      </div>
+      <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
-        <button type="submit">Login</button>
+        <button type="submit">Sign In</button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p className="error">{error}</p>}
+      {/* Link to Sign Up */}
+      <p>
+        Don’t have an account? <a href="/signup">Create an account</a>
+      </p>
     </div>
   );
 };

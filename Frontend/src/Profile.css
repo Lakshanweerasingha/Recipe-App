@@ -1,0 +1,29 @@
+/* Profile.css */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  
+  .profile-content {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .meal-categories,
+  .favorite-recipes {
+    flex: 1;
+    margin: 0 20px;
+  }
+  
+  .meal-categories {
+    border-right: 2px solid #ccc; /* Separate the two sections visually */
+    padding-right: 20px;
+  }
+  
+  .favorite-recipes {
+    padding-left: 20px;
+  }
+  

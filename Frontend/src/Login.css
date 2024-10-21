@@ -1,70 +1,72 @@
-/* Container for the login form */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f5f5f5;
-  }
-  
-  /* Box containing the form */
-  .box {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
-  }
-  
-  /* Main heading */
-  .heading {
-    margin-bottom: 10px;
-  }
-  
-  /* Subheading */
-  .subheading {
-    margin-bottom: 20px;
-  }
-  
-  /* Form field labels and inputs */
-  .field {
-    margin-bottom: 15px;
-    text-align: left;
-  }
-  
-  .input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-  }
-  
-  /* Button styling */
-  .button {
-    width: 100%;
-    padding: 10px;
-    background-color: pink;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  /* Error message styling */
-  .error {
-    color: red;
-    margin-top: 10px;
-  }
-  
-  /* Paragraph and link */
-  .text {
-    margin-top: 20px;
-  }
-  
-  .link {
-    color: pink;
-    text-decoration: none;
-  }
-  
+/* Reset basic styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+/* Login form container */
+.login-container {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  text-align: center;
+}
+
+/* Logo styling */
+.login-container .logo {
+  margin-bottom: 20px;
+}
+
+.login-container img {
+  width: 100px;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+button {
+  padding: 12px;
+  background-color: #ff3e6c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #ff5a85;
+}
+
+/* Error message */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { isLoggedIn, getAuthHeader } from './auth';
+import './MealCategories.css'
 
 const MealCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -32,13 +33,20 @@ const MealCategories = () => {
     <div>
       <h2>Meal Categories</h2>
       {error && <p>{error}</p>}
-      <ul>
-        {categories.map((category, index) => (
-          <li key={index}>
-            <Link to={`/recipes/${category.strCategory}`}>{category.strCategory}</Link>
-          </li>
+      <div className="categories-container">
+        {categories.slice(0, 6).map((category, index) => (
+          <div key={index} className="category-item">
+            <Link to={`/recipes/${category.strCategory}`} className="category-link">
+              <img 
+                src={category.strCategoryThumb} 
+                alt={category.strCategory} 
+                className="category-image" 
+              />
+              <p className="category-name">{category.strCategory}</p>
+            </Link>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
