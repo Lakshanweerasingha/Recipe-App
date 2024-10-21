@@ -1,0 +1,70 @@
+/* Container for the register form */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  /* Box containing the form */
+  .box {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+  }
+  
+  /* Main heading */
+  .heading {
+    margin-bottom: 10px;
+  }
+  
+  /* Subheading */
+  .subheading {
+    margin-bottom: 20px;
+  }
+  
+  /* Form field labels and inputs */
+  .field {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  /* Button styling */
+  .button {
+    width: 100%;
+    padding: 10px;
+    background-color: pink;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  /* Error message styling */
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  /* Paragraph and link */
+  .text {
+    margin-top: 20px;
+  }
+  
+  .link {
+    color: pink;
+    text-decoration: none;
+  }
+  
