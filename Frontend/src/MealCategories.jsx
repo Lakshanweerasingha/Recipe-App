@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { isLoggedIn, getAuthHeader } from './auth';
-import './MealCategories.css'
+import { ENDPOINTS } from './Api'; // Import the API endpoints
+import './MealCategories.css';
 
 const MealCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -16,11 +17,17 @@ const MealCategories = () => {
 
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/recipes/categories', {
+        const response = await fetch(ENDPOINTS.mealCategories, { // Use the meal categories endpoint
           headers: getAuthHeader(),
         });
+        
+        // Check if response is OK
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
         const data = await response.json();
-        setCategories(data.categories);  // assuming 'categories' is the correct field in the response
+        setCategories(data.categories);  // Assuming 'categories' is the correct field in the response
       } catch (error) {
         setError('Failed to load categories');
       }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ENDPOINTS } from './Api'; // Import the API endpoints
 import './Register.css';
 
 const Register = () => {
@@ -54,7 +55,7 @@ const Register = () => {
     if (!validateInputs()) return;  // Validate inputs before proceeding
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/register', {
+      const response = await fetch(ENDPOINTS.register, {  // Use the register endpoint
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ firstName, lastName, email, phoneNumber, password }),

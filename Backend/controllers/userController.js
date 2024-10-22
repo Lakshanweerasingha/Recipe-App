@@ -3,27 +3,16 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body } = require('express-validator');
-const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
 
-// Use  to set security-related HTTP headers
-const app = require('express')();
-app.use(helmet());
-
-// Rate limiter 
-const loginLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000, 
-  max: 100, 
-  message: "Too many requests from this IP, please try again 10 minutes"
-});
-app.use('/login', loginLimiter);
-
+// Register a new user
 exports.register = [
-  body('email').isEmail().normalizeEmail().withMessage('invalid email address'),
-  body('password').isLength({ min: 6 }).withMessage('password must be at least 6 characters').trim().escape(),
-  body('username').not().isEmpty().trim().escape().withMessage('username is required'),
-
+  // Input validation and sanitization
+  body('email').isEmail().normalizeEmail(),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  body('username').not().isEmpty().trim().escape(),
+  
   async (req, res) => {
+    // Check validation result
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -34,7 +23,7 @@ exports.register = [
     try {
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        return res.status(400).json({ msg: 'user already exists' });
+        return res.status(400).json({ msg: 'User already exists' });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -44,15 +33,17 @@ exports.register = [
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.json({ token, user: newUser });
     } catch (error) {
-      res.status(500).json({ msg: 'server error' });
+      res.status(500).json({ msg: 'Server error' });
     }
   },
 ];
 
+// Login user
 exports.login = [
-  body('email').isEmail().normalizeEmail().withMessage('invalid email address'),
-  body('password').not().isEmpty().trim().escape().withMessage('password is required'),
-
+  // Validate input
+  body('email').isEmail().normalizeEmail(),
+  body('password').not().isEmpty(),
+  
   async (req, res) => {
     const { email, password } = req.body;
 
@@ -64,12 +55,12 @@ exports.login = [
     try {
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ msg: 'user does not exist' });
+        return res.status(400).json({ msg: 'User does not exist' });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ msg: 'invalid credentials' });
+        return res.status(400).json({ msg: 'Invalid credentials' });
       }
 
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -80,74 +71,81 @@ exports.login = [
   },
 ];
 
+// controllers/userController.js
+
+
+// Get user profile
+// controllers/userController.js
 exports.getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password'); 
+    const user = await User.findById(req.user.id).select('-password'); // Ensure you're using req.user.id
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
     res.json(user);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ msg: 'Server error' });
   }
 };
 
-exports.addFavoriteRecipe = [
-  body('recipeID').not().isEmpty().withMessage('recipe ID is required'),
 
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    try {
-      const { recipeID } = req.body;
-      const user = await User.findById(req.user.id);
-
-      if (user.favoriteRecipes.includes(recipeID)) {
-        return res.status(400).json({ msg: 'recipe already in favorites' });
-      }
-
-      user.favoriteRecipes.push(recipeID);
-      await user.save();
-      res.json(user.favoriteRecipes);
-    } catch (error) {
-      res.status(500).json({ msg: 'server error' });
-    }
-  }
-];
-
-exports.getFavoriteRecipes = async (req, res) => {
+// Add favorite recipe
+exports.addFavoriteRecipe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
-    if (!user) {
-      return res.status(404).json({ msg: 'user not found' });
+    const { recipeID } = req.body;
+
+    if (!recipeID) {
+      return res.status(400).json({ msg: 'Recipe ID is required' });
     }
 
-    res.json({ favoriteRecipes: user.favoriteRecipes });
+    const user = await User.findById(req.user.id);
+    if (user.favoriteRecipes.includes(recipeID)) {
+      return res.status(400).json({ msg: 'Recipe already in favorites' });
+    }
+
+    user.favoriteRecipes.push(recipeID);
+    await user.save();
+    res.json(user.favoriteRecipes);
   } catch (error) {
-    res.status(500).json({ msg: 'server error' });
+    res.status(500).json({ msg: 'Server error' });
   }
 };
 
-exports.removeFavoriteRecipe = [
-  body('recipeID').not().isEmpty().withMessage('recipe ID is required'),
 
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+// Get favorite recipes for the logged-in user
+exports.getFavoriteRecipes = async (req, res) => {
+  try {
+    // Find the user by their ID
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
     }
 
-    try {
-      const { recipeID } = req.body;
-      const user = await User.findById(req.user.id);
-      user.favoriteRecipes = user.favoriteRecipes.filter((id) => id !== recipeID);
-      await user.save();
-      res.json(user.favoriteRecipes);
-    } catch (error) {
-      res.status(500).json({ msg: 'server error' });
-    }
+    // Send back the favoriteRecipes array with only the recipe IDs
+    res.json({ favoriteRecipes: user.favoriteRecipes });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Server error' });
   }
-];
+};
+
+
+
+// Remove favorite recipe
+exports.removeFavoriteRecipe = async (req, res) => {
+  try {
+    const { recipeID } = req.params;
+    
+    if (!recipeID) {
+      return res.status(400).json({ msg: 'Recipe ID is required' });
+    }
+
+    const user = await User.findById(req.user.id);
+    user.favoriteRecipes = user.favoriteRecipes.filter((id) => id !== recipeID);
+    await user.save();
+    res.json(user.favoriteRecipes);
+  } catch (error) {
+    res.status(500).json({ msg: 'Server error' });
+  }
+};

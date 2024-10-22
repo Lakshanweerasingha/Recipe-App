@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { isLoggedIn, getAuthHeader } from './auth';
+import { ENDPOINTS } from './Api'; // Import the API endpoints
 import './RecipeDetails.css';
 
 const RecipeDetails = () => {
@@ -17,9 +18,14 @@ const RecipeDetails = () => {
 
     const fetchRecipeDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/recipes/details/${id}`, {
-          headers: getAuthHeader(),
+        const response = await fetch(ENDPOINTS.recipeDetails(id), {
+          headers: getAuthHeader(), // Use the auth header
         });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
         const data = await response.json();
         setRecipe(data.meals ? data.meals[0] : null);
       } catch (error) {

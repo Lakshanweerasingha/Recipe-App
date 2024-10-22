@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { isLoggedIn, getAuthHeader } from './auth';
+import { ENDPOINTS } from './Api'; // Import the API endpoints
 import './RecipesByCategory.css'; // Import the CSS file for styling
 
 const RecipesByCategory = () => {
@@ -9,6 +10,8 @@ const RecipesByCategory = () => {
   const [error, setError] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [favoriteLabels, setFavoriteLabels] = useState({});
+  const [loadingRecipes, setLoadingRecipes] = useState(true);
+  const [loadingFavorites, setLoadingFavorites] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,30 +22,35 @@ const RecipesByCategory = () => {
 
     const fetchRecipes = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/recipes/${category}`, {
+        const response = await fetch(ENDPOINTS.recipesByCategory(category), {
           headers: getAuthHeader(),
         });
         const data = await response.json();
         setRecipes(data.meals);
       } catch (error) {
         setError('Failed to load recipes');
+      } finally {
+        setLoadingRecipes(false); // Set loading to false after fetching
       }
     };
 
     const fetchFavorites = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/users/profile`, {
+        const response = await fetch(ENDPOINTS.userProfile, {
           headers: getAuthHeader(),
         });
         const data = await response.json();
-        setFavorites(data.favoriteRecipes || []);
+        const userFavorites = data.favoriteRecipes || [];
+        setFavorites(userFavorites);
         const initialLabels = {};
-        data.favoriteRecipes?.forEach((recipeID) => {
+        userFavorites.forEach((recipeID) => {
           initialLabels[recipeID] = 'Remove from Favorites';
         });
         setFavoriteLabels(initialLabels);
       } catch (error) {
         setError('Failed to load favorites');
+      } finally {
+        setLoadingFavorites(false); // Set loading to false after fetching
       }
     };
 
@@ -65,7 +73,7 @@ const RecipesByCategory = () => {
 
   const addToFavorites = async (recipeID) => {
     try {
-      const response = await fetch('http://localhost:5000/api/users/favorites', {
+      const response = await fetch(ENDPOINTS.userFavorites, {
         method: 'POST',
         headers: {
           ...getAuthHeader(),
@@ -84,7 +92,7 @@ const RecipesByCategory = () => {
 
   const removeFromFavorites = async (recipeID) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/favorites/${recipeID}`, {
+      const response = await fetch(ENDPOINTS.deleteFavorite(recipeID), {
         method: 'DELETE',
         headers: getAuthHeader(),
       });
@@ -100,21 +108,24 @@ const RecipesByCategory = () => {
   return (
     <div className="recipes-container">
       <h2>{category} Recipes</h2>
-      {error && <p>{error}</p>}
-      <div className="recipes-grid">
-        {recipes.map((recipe) => (
-          <div key={recipe.idMeal} className="recipe-tile">
-            {/* Display the recipe thumbnail image */}
-            <img src={recipe.strMealThumb} alt={recipe.strMeal} className="recipe-thumbnail" />
-            <Link to={`/recipe/details/${recipe.idMeal}`} className="recipe-title">
-              {recipe.strMeal}
-            </Link>
-            <button className="favorite-btn" onClick={() => toggleFavorite(recipe.idMeal)}>
-              {favoriteLabels[recipe.idMeal] || 'Add to Favorites'}
-            </button>
-          </div>
-        ))}
-      </div>
+      {error && <p className="error">{error}</p>}
+      {loadingRecipes || loadingFavorites ? (
+        <p>Loading...</p> // Loading message
+      ) : (
+        <div className="recipes-grid">
+          {recipes.map((recipe) => (
+            <div key={recipe.idMeal} className="recipe-tile">
+              <img src={recipe.strMealThumb} alt={recipe.strMeal} className="recipe-thumbnail" />
+              <Link to={`/recipe/details/${recipe.idMeal}`} className="recipe-title">
+                {recipe.strMeal}
+              </Link>
+              <button className="favorite-btn" onClick={() => toggleFavorite(recipe.idMeal)}>
+                {favoriteLabels[recipe.idMeal] || 'Add to Favorites'}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
