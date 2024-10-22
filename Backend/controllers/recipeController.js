@@ -25,7 +25,7 @@ exports.getRecipesByCategory = [
   },
 ];
 
-// Get recipe details
+// Get single recipe details
 exports.getRecipeDetails = [
   param('id').isMongoId().withMessage('Invalid recipe ID format'),
 

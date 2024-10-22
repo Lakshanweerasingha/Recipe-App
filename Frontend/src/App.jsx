@@ -12,7 +12,6 @@ const App = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    // Check if token exists to set authentication status
     setIsAuthenticated(!!token);
   }, []);
 
@@ -30,7 +29,6 @@ const App = () => {
             </>
           ) : (
             <>
-              <button onClick={handleLogout}>Logout</button>
             </>
           )}
         </nav>
