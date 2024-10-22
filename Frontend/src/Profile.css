@@ -1,29 +1,139 @@
-/* Profile.css */
 .profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
-  }
-  
-  .profile-content {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-  }
-  
-  .meal-categories,
-  .favorite-recipes {
-    flex: 1;
-    margin: 0 20px;
-  }
-  
-  .meal-categories {
-    border-right: 2px solid #ccc; /* Separate the two sections visually */
-    padding-right: 20px;
-  }
-  
-  .favorite-recipes {
-    padding-left: 20px;
-  }
-  
+  padding: 20px;
+}
+
+.profile-buttons {
+  position: fixed; /* Fixes buttons at the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  z-index: 1000; /* Ensures the buttons stay on top */
+}
+
+.profile-buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.profile-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.logout-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: #dc3545; /* Red background for the logout button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+.profile-content {
+  margin-top: 70px; /* Creates space below the fixed buttons */
+}
+
+.meal-categories {
+  margin-top: 20px;
+}
+
+.favorite-recipes {
+  margin-top: 20px;
+}
+
+.category-recipes {
+  margin-top: 20px;
+}
+
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.recipe-tile {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+}
+
+.recipe-tile:hover {
+  background-color: #f1f1f1;
+}
+
+.recipe-title {
+  margin-bottom: 10px;
+  color: blue;
+}
+
+.recipe-title:hover {
+  text-decoration: underline;
+}
+
+.recipe-tile img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: darkred;
+}
+
+.recipe-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+}
+
+/* .recipe-details img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin: 10px 0;
+} */
+
+.recipe-details a {
+  margin-top: 10px;
+  color: blue;
+  text-decoration: none;
+}
+
+.recipe-details a:hover {
+  text-decoration: underline;
+}
+
+.loading {
+  color: #666;
+}

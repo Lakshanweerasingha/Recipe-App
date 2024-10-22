@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import MealCategories from './MealCategories'; // Import the MealCategories component
-import './Profile.css'; // Import CSS file for styling
+import MealCategories from './MealCategories';
+import RecipesByCategory from './RecipesByCategory'; // Import the new component
+import './Profile.css';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [categoryRecipes, setCategoryRecipes] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [showContent, setShowContent] = useState('home');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,25 +58,33 @@ const Profile = () => {
         },
       })
         .then((res) => res.json())
-        .then((data) => data.meals ? data.meals[0] : null)
+        .then((data) => (data.meals ? data.meals[0] : null))
         .catch((err) => {
           console.error('Error fetching recipe details:', err);
           return null;
         })
     );
-
     Promise.all(fetchPromises).then((recipes) => {
       const validRecipes = recipes.filter((recipe) => recipe !== null);
       setFavoriteRecipes(validRecipes);
     });
   };
 
-  const handleRecipeClick = (recipe) => {
-    if (selectedRecipe && selectedRecipe.idMeal === recipe.idMeal) {
-      setSelectedRecipe(null);
-    } else {
-      setSelectedRecipe(recipe);
-    }
+  const fetchRecipesByCategory = (category) => {
+    setSelectedCategory(category);
+    fetch(`http://localhost:5000/api/recipes/${category}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCategoryRecipes(data.meals || []);
+      })
+      .catch((err) => {
+        console.error('Error fetching recipes by category:', err);
+      });
   };
 
   const handleDeleteRecipe = (idMeal) => {
@@ -98,70 +109,75 @@ const Profile = () => {
       });
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
+  const handleRecipeClick = (recipe) => {
+    navigate(`/recipe/details/${recipe.idMeal}`);
+  };
+
   return (
     <div className="profile-container">
+      <div className="profile-buttons">
+        {!user && (
+          <>
+            <button onClick={() => navigate('/signup')}>Signup</button>
+            <button onClick={() => navigate('/login')}>Login</button>
+          </>
+        )}
+        <button onClick={() => setShowContent('home')}>Home</button>
+        <button onClick={() => setShowContent('favorites')}>Favorites</button>
+        {user && (
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        )}
+      </div>
+
       {user ? (
         <div className="profile-content">
-          <div className="meal-categories">
-            <h3>Meal Categories</h3>
-            <MealCategories /> {/* Render the MealCategories component */}
-          </div>
+          {showContent === 'home' && (
+            <div>
+              <div className="categories-navbar">
+                <MealCategories onSelectCategory={fetchRecipesByCategory} />
+              </div>
+            </div>
+          )}
 
-          <div className="favorite-recipes">
-            <h3>Favorite Recipes</h3>
-            {favoriteRecipes.length > 0 ? (
-              <ul>
-                {favoriteRecipes.map((recipe) => (
-                  <li key={recipe.idMeal}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <h4
-                        style={{ cursor: 'pointer', color: 'blue', marginRight: '10px' }}
-                        onClick={() => handleRecipeClick(recipe)}
-                      >
-                        {recipe.strMeal}
-                      </h4>
-                      <button
-                        onClick={() => handleDeleteRecipe(recipe.idMeal)}
-                        style={{
-                          marginLeft: 'auto',
-                          backgroundColor: 'red',
-                          color: 'white',
-                          border: 'none',
-                          padding: '5px 10px',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                    {selectedRecipe && selectedRecipe.idMeal === recipe.idMeal && (
-                      <div>
-                        <p>Category: {recipe.strCategory}</p>
-                        <p>Area: {recipe.strArea}</p>
-                        <p>Ingredients:</p>
-                        <ul>
-                          {Object.keys(recipe)
-                            .filter((key) => key.startsWith('strIngredient') && recipe[key])
-                            .map((ingredientKey) => (
-                              <li key={ingredientKey}>
-                                {recipe[ingredientKey]} ({recipe[`strMeasure${ingredientKey.slice(-1)}`]})
-                              </li>
-                            ))}
-                        </ul>
-                        <p>{recipe.strInstructions}</p>
-                        <img src={recipe.strMealThumb} alt={recipe.strMeal} />
-                        <a href={recipe.strYoutube} target="_blank" rel="noopener noreferrer">
-                          Watch Recipe Video
-                        </a>
+          {showContent === 'favorites' && (
+            <div className="favorite-recipes">
+              <h3>Favorite Recipes</h3>
+              {favoriteRecipes.length > 0 ? (
+                <div className="recipes-grid">
+                  {favoriteRecipes.map((recipe) => (
+                    <div
+                      key={recipe.idMeal}
+                      className="recipe-tile"
+                      onClick={() => handleRecipeClick(recipe)}
+                    >
+                      <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+                      <div className="recipe-header">
+                        <h4 className="recipe-title">{recipe.strMeal}</h4>
+                        <button
+                          className="delete-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteRecipe(recipe.idMeal);
+                          }}
+                        >
+                          Delete
+                        </button>
                       </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No favorite recipes found.</p>
-            )}
-          </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>No favorite recipes found.</p>
+              )}
+            </div>
+          )}
         </div>
       ) : (
         <p>Loading...</p>

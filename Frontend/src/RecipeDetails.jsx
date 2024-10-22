@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { isLoggedIn, getAuthHeader } from './auth';
+import './RecipeDetails.css';
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -10,7 +11,7 @@ const RecipeDetails = () => {
 
   useEffect(() => {
     if (!isLoggedIn()) {
-      navigate('/login');  // Redirect to login if not logged in
+      navigate('/login');
       return;
     }
 
@@ -20,7 +21,7 @@ const RecipeDetails = () => {
           headers: getAuthHeader(),
         });
         const data = await response.json();
-        setRecipe(data.meals ? data.meals[0] : null);  // assuming 'meals' is the correct field
+        setRecipe(data.meals ? data.meals[0] : null);
       } catch (error) {
         setError('Failed to load recipe details');
       }
@@ -30,25 +31,31 @@ const RecipeDetails = () => {
   }, [id, navigate]);
 
   return (
-    <div>
-      {error && <p>{error}</p>}
+    <div className="recipe-details-container">
+      {error && <p className="error">{error}</p>}
       {recipe ? (
-        <div>
-          <h2>{recipe.strMeal}</h2>
-          <img src={recipe.strMealThumb} alt={recipe.strMeal} />
-          <h3>Instructions</h3>
-          <p>{recipe.strInstructions}</p>
-          <h3>Ingredients</h3>
-          <ul>
-            {Object.keys(recipe).map((key, index) =>
-              key.startsWith('strIngredient') && recipe[key] ? (
-                <li key={index}>{recipe[key]}</li>
-              ) : null
-            )}
-          </ul>
+        <div className="recipe-details">
+          <h2 className="recipe-title">{recipe.strMeal}</h2>
+          <img src={recipe.strMealThumb} alt={recipe.strMeal} className="recipe-image" />
+          <div className="recipe-content">
+            <div className="recipe-section">
+              <h3>Instructions</h3>
+              <p>{recipe.strInstructions}</p>
+            </div>
+            <div className="recipe-section">
+              <h3>Ingredients</h3>
+              <ul>
+                {Object.keys(recipe).map((key, index) =>
+                  key.startsWith('strIngredient') && recipe[key] ? (
+                    <li key={index}>{recipe[key]}</li>
+                  ) : null
+                )}
+              </ul>
+            </div>
+          </div>
         </div>
       ) : (
-        <p>Loading recipe details...</p>
+        <p className="loading">Loading recipe details...</p>
       )}
     </div>
   );
