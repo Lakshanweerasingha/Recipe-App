@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
 import Profile from './Profile';
@@ -27,14 +27,15 @@ const App = () => {
         <nav>
           {!isAuthenticated ? (
             <>
-              <Link to="/register">Sign Up</Link> | <Link to="/login">Login</Link>
             </>
           ) : (
             <>
+              <button onClick={handleLogout}>Logout</button>
             </>
           )}
         </nav>
         <Routes>
+          <Route path="/" element={<Navigate to={isAuthenticated ? "/profile" : "/login"} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
