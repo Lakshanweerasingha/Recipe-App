@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';  // Import the CSS file
 
@@ -7,14 +7,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
-  // Check if the user is already logged in
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      navigate('/profile', { replace: true });  // Redirect to profile page if logged in
-    }
-  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,7 +22,7 @@ const Login = () => {
 
       if (data.token) {
         localStorage.setItem('token', data.token);  // Save token to localStorage
-        navigate('/profile', { replace: true });  // Redirect to profile page
+        navigate('/profile');  // Redirect to profile page
       } else {
         setError(data.msg);
       }

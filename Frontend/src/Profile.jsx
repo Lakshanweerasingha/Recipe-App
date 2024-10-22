@@ -15,8 +15,10 @@ const Profile = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
+      // Redirect to login if token does not exist
       navigate('/login');
     } else {
+      // Fetch user profile
       fetch('http://localhost:5000/api/users/profile', {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -26,6 +28,7 @@ const Profile = () => {
           fetchFavoriteRecipes();
         })
         .catch(() => {
+          // If there is an error (like token expired), navigate to login
           navigate('/login');
         });
     }
