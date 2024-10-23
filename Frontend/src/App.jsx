@@ -29,7 +29,7 @@ const App = () => {
         </nav>
         <Routes>
           <Route path="/" element={<Navigate to={isAuthenticated ? "/profile" : "/login"} />} />
-          <Route path="api//users/register" element={<Register />} />
+          <Route path="api/users/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/categories" element={<MealCategories />} />
