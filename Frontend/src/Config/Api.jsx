@@ -1,4 +1,6 @@
-const API_BASE_URL = 'https://recipe-app-beige-eta.vercel.app/api';
+const API_BASE_URL = 'http://localhost:5000/api';
+
+//const API_BASE_URL = 'https://recipe-app-beige-eta.vercel.app/api';
 
 export const ENDPOINTS = {
   userProfile: `${API_BASE_URL}/users/profile`,

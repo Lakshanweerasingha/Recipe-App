@@ -28,8 +28,8 @@ const App = () => {
           )}
         </nav>
         <Routes>
-        <Route path="/" element={<Register />} />
-          <Route path="/register" element={<Login />} />
+          <Route path="/" element={<Navigate to={isAuthenticated ? "/profile" : "/login"} />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/categories" element={<MealCategories />} />
