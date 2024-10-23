@@ -8,8 +8,8 @@ const recipeRoutes = require('./routes/recipeRoutes');
 
 dotenv.config();
 
-const app = express();
-// app.use(cors());
+const app = express(); 
+app.use(cors({ origin: '*' })); 
 app.use(helmet());  
 app.use(express.json());
 
