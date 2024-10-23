@@ -11,7 +11,7 @@ dotenv.config();
 const app = express(); 
 app.use(cors(
   {
-    origin: ["recipe-app-beige-eta.vercel.app"],
+    origin: [""],
     methods: ["POST", "GET","DELETE"],
     credentials: true
   }
