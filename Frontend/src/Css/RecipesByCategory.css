@@ -1,12 +1,11 @@
-
-
 .recipes-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start; /* Ensure content starts below any fixed elements */
+  padding-top: 70px; /* Adjust padding to push content down */
   background-color: #f8f9fa;
 }
-
 
 .recipes-grid {
   display: grid;
@@ -23,6 +22,7 @@
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+
 }
 
 .recipe-thumbnail {

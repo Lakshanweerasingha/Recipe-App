@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ENDPOINTS } from './Api'; // Import the API endpoints
-import './Register.css';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link
+import { ENDPOINTS } from '../Config/Api';
+import '../Css/Register.css';
 
 const Register = () => {
   const [firstName, setFirstName] = useState('');
@@ -52,10 +52,10 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    if (!validateInputs()) return;  // Validate inputs before proceeding
+    if (!validateInputs()) return;
 
     try {
-      const response = await fetch(ENDPOINTS.register, {  // Use the register endpoint
+      const response = await fetch(ENDPOINTS.register, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ firstName, lastName, email, phoneNumber, password }),
@@ -64,7 +64,7 @@ const Register = () => {
       const data = await response.json();
 
       if (data.success) {
-        navigate('/login');  // Redirect to login page after successful registration
+        navigate('/login'); // Redirect to login page after successful registration
       } else {
         setError(data.msg);
       }
@@ -140,6 +140,9 @@ const Register = () => {
         <button type="submit">Sign Up</button>
       </form>
       {error && <p className="error">{error}</p>}
+      <p className="login-link">
+        Already have an account? <Link to="/login">Log in here</Link>
+      </p>
     </div>
   );
 };

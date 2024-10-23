@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { isLoggedIn, getAuthHeader } from './auth';
-import { ENDPOINTS } from './Api'; // Import the API endpoints
-import './RecipeDetails.css';
+import { isLoggedIn, getAuthHeader } from '../Config/auth';
+import { ENDPOINTS } from '../Config/Api'; // Import the API endpoints
+import '../Css/RecipeDetails.css';
 
 const RecipeDetails = () => {
   const { id } = useParams();

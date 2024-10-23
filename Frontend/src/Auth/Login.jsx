@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ENDPOINTS } from './Api'; // Import the API endpoints
-import './Login.css';  // Import the CSS file
+import { ENDPOINTS } from '../Config/Api'; // Import the API endpoints
+import '../Css/Login.css';  // Import the CSS file
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -59,7 +59,6 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      {/* Add a logo placeholder or import your actual logo */}
       <div className="logo">
         <img src="/path/to/your/logo.png" alt="Logo" />
       </div>
@@ -82,9 +81,8 @@ const Login = () => {
         <button type="submit">Sign In</button>
       </form>
       {error && <p className="error">{error}</p>}
-      {/* Link to Sign Up */}
       <p>
-        Don’t have an account? <a href="/register">Create an account</a>
+        Don’t have an account? <a href="/register" className="create-account-link">Create an account</a>
       </p>
     </div>
   );

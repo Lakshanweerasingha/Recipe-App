@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
-import Register from './Register';
-import Login from './Login';
-import Profile from './Profile';
-import MealCategories from './MealCategories';
-import RecipesByCategory from './RecipesByCategory';
-import RecipeDetails from './RecipeDetails';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Register from './Auth/Register';
+import Login from './Auth/Login';
+import Profile from './Recipes/Profile';
+import MealCategories from './Recipes/MealCategories';
+import RecipesByCategory from './Recipes/RecipesByCategory';
+import RecipeDetails from './Recipes/RecipeDetails';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

@@ -34,6 +34,12 @@ body {
   width: 100px;
 }
 
+.register-container p {
+  margin-top: 20px; /* Space above the paragraph */
+  font-size: 14px; /* Font size */
+  color: black; /* Change text color to black */
+}
+
 /* Form styling */
 form {
   display: flex;
@@ -51,6 +57,7 @@ form {
   width: 48%;  /* Each column takes 48% of the row width */
 }
 
+/* Consistent input field styling */
 input[type="text"],
 input[type="email"],
 input[type="password"] {
@@ -60,11 +67,19 @@ input[type="password"] {
   border: 1px solid #ddd;
   font-size: 16px;
   width: 100%;  /* Ensure inputs take full column width */
+  background-color: white;  /* Set a consistent background color */
+  color: black;  /* Set text color to black */
 }
 
+/* Placeholder color */
+input::placeholder {
+  color: #aaa;  /* Light gray color for placeholders */
+}
+
+/* Button styling */
 button {
   padding: 12px;
-  background-color: #ff3e6c;
+  background-color: #ff3e6c !important;  /* Pink color with !important */
   color: white;
   border: none;
   border-radius: 8px;
@@ -75,7 +90,7 @@ button {
 }
 
 button:hover {
-  background-color: #ff5a85;
+  background-color: #ff5a85 !important; /* Darker pink on hover */
 }
 
 /* Error message */

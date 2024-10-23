@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MealCategories from './MealCategories';
-import { isLoggedIn, getAuthHeader } from './auth'; // Import your auth functions
-import { ENDPOINTS } from './Api'; // Import your API endpoints
-import './Profile.css';
+import { isLoggedIn, getAuthHeader } from '../Config/auth'; // Import your auth functions
+import { ENDPOINTS } from '../Config/Api'; // Import your API endpoints
+import '../Css/Profile.css';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -26,7 +26,19 @@ const Profile = () => {
         .catch(() => {
           navigate('/login');
         });
+
+      // Prevent going back to the login page
+      window.history.pushState(null, null, window.location.href);
+      window.addEventListener('popstate', () => {
+        window.history.pushState(null, null, window.location.href);
+      });
     }
+
+    return () => {
+      window.removeEventListener('popstate', () => {
+        window.history.pushState(null, null, window.location.href);
+      });
+    };
   }, [navigate]);
 
   const fetchFavoriteRecipes = () => {

@@ -118,11 +118,11 @@
   border-radius: 10px;
 }
 
-/* .recipe-details img {
+.recipe-details img {
   max-width: 100%;
   border-radius: 10px;
   margin: 10px 0;
-} */
+}
 
 .recipe-details a {
   margin-top: 10px;

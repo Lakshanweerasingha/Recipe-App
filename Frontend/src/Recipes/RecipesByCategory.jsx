@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { isLoggedIn, getAuthHeader } from './auth';
-import { ENDPOINTS } from './Api'; // Import the API endpoints
-import './RecipesByCategory.css'; // Import the CSS file for styling
+import { isLoggedIn, getAuthHeader } from '../Config/auth';
+import { ENDPOINTS } from '../Config/Api'; // Import the API endpoints
+import '../Css/RecipesByCategory.css'; // Import the CSS file for styling
 
 const RecipesByCategory = () => {
   const { category } = useParams();
@@ -60,16 +60,29 @@ const RecipesByCategory = () => {
 
   const toggleFavorite = async (recipeID) => {
     const isFavorite = favorites.includes(recipeID);
+    
     if (isFavorite) {
-      await removeFromFavorites(recipeID);
+      await removeFromFavorites(recipeID); // Remove from favorites API call
     } else {
-      await addToFavorites(recipeID);
+      await addToFavorites(recipeID); // Add to favorites API call
     }
+  
+    // Update the favorites state
+    setFavorites((prevFavorites) => {
+      if (isFavorite) {
+        return prevFavorites.filter((id) => id !== recipeID); // Remove the recipe from favorites
+      } else {
+        return [...prevFavorites, recipeID]; // Add the recipe to favorites
+      }
+    });
+  
+    // Update the button labels
     setFavoriteLabels((prevLabels) => ({
       ...prevLabels,
       [recipeID]: isFavorite ? 'Add to Favorites' : 'Remove from Favorites',
     }));
   };
+  
 
   const addToFavorites = async (recipeID) => {
     try {
