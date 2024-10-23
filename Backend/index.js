@@ -11,7 +11,7 @@ dotenv.config();
 const app = express(); 
 app.use(cors(
   {
-    origin: [],
+    origin: ["recipe-app-beige-eta.vercel.app"],
     methods: ["POST", "GET","DELETE"],
     credentials: true
   }
@@ -23,9 +23,6 @@ mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB connected'))
 .catch((err) => console.error('MongoDB connection error', err));
 
-app.get("/", (req,res) => {
-  res.json("hello");
-})
 
 app.use('/api/users', userRoutes);
 app.use('/api/recipes', recipeRoutes);
