@@ -12,33 +12,25 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Check if the user is logged in
     if (!isLoggedIn()) {
       navigate('/login');
-    } else {
-      fetch(ENDPOINTS.userProfile, {
-        headers: getAuthHeader(),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setUser(data);
-          fetchFavoriteRecipes();
-        })
-        .catch(() => {
-          navigate('/login');
-        });
-
-      // Prevent going back to the login page
-      window.history.pushState(null, null, window.location.href);
-      window.addEventListener('popstate', () => {
-        window.history.pushState(null, null, window.location.href);
-      });
+      return; // Exit early if not logged in
     }
 
-    return () => {
-      window.removeEventListener('popstate', () => {
-        window.history.pushState(null, null, window.location.href);
+    // Fetch user profile
+    fetch(ENDPOINTS.userProfile, {
+      headers: getAuthHeader(),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+        fetchFavoriteRecipes();
+      })
+      .catch(() => {
+        navigate('/login');
       });
-    };
+
   }, [navigate]);
 
   const fetchFavoriteRecipes = () => {
@@ -122,7 +114,7 @@ const Profile = () => {
       <div className="profile-buttons">
         {!user && (
           <>
-            <button onClick={() => navigate('/register')}>Signup</button>
+            <button onClick={() => navigate('/signup')}>Signup</button>
             <button onClick={() => navigate('/login')}>Login</button>
           </>
         )}
@@ -183,7 +175,6 @@ const Profile = () => {
       )}
     </div>
   );
-
 };
 
 export default Profile;
