@@ -9,7 +9,7 @@ const recipeRoutes = require('./routes/recipeRoutes');
 dotenv.config();
 
 const app = express();
-app.use(cors());
+// app.use(cors());
 app.use(helmet());  
 app.use(express.json());
 
