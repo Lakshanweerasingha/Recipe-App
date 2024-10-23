@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  favoriteRecipes: [{ type: String }],  
+  firstName: { type: String, required: true },      // First Name
+  lastName: { type: String, required: true },       // Last Name
+  email: { type: String, required: true, unique: true },  // Email
+  phoneNumber: { type: String, required: true },    // Phone Number
+  password: { type: String, required: true },       // Password
+  confirmPassword: { type: String, required: true }, // Confirm Password
+  favoriteRecipes: [{ type: String }]               // Favorite Recipes (optional)
 });
 
 const User = mongoose.model('User', userSchema);
+
 module.exports = User;
