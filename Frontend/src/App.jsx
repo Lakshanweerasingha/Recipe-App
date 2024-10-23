@@ -28,7 +28,7 @@ const App = () => {
           )}
         </nav>
         <Routes>
-          <Route path="/" element={<Navigate to={isAuthenticated ? "/profile" : "/login"} />} />
+        <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
