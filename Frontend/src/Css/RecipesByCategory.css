@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Ensure content starts below any fixed elements */
-  padding-top: 70px; /* Adjust padding to push content down */
+  justify-content: flex-start; 
+  padding-top: 70px; 
   background-color: #f8f9fa;
 }
 
@@ -26,10 +26,10 @@
 }
 
 .recipe-thumbnail {
-  width: 100%; /* Make image responsive */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 10px; /* Optional: add rounded corners */
-  margin-bottom: 10px; /* Add space below the image */
+  width: 100%; 
+  height: auto; 
+  border-radius: 10px; 
+  margin-bottom: 10px; 
 }
 
 .recipe-title {

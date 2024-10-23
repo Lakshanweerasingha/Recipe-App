@@ -3,7 +3,7 @@
 }
 
 .profile-buttons {
-  position: fixed; /* Fixes buttons at the top */
+  position: fixed; 
   top: 0;
   left: 0;
   width: 100%;
@@ -11,7 +11,7 @@
   display: flex;
   justify-content: center;
   padding: 10px 0;
-  z-index: 1000; /* Ensures the buttons stay on top */
+  z-index: 1000; 
 }
 
 .profile-buttons button {
@@ -33,7 +33,7 @@
   position: absolute;
   right: 10px;
   top: 10px;
-  background-color: #dc3545; /* Red background for the logout button */
+  background-color: #dc3545; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -42,11 +42,11 @@
 }
 
 .logout-btn:hover {
-  background-color: #c82333; /* Darker red on hover */
+  background-color: #c82333; 
 }
 
 .profile-content {
-  margin-top: 70px; /* Creates space below the fixed buttons */
+  margin-top: 70px; 
 }
 
 .meal-categories {

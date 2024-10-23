@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { isLoggedIn, getAuthHeader } from '../Config/auth';
-import { ENDPOINTS } from '../Config/Api'; // Import the API endpoints
+import { ENDPOINTS } from '../Config/Api'; 
 import '../Css/MealCategories.css';
 
 const MealCategories = () => {
@@ -11,23 +11,22 @@ const MealCategories = () => {
 
   useEffect(() => {
     if (!isLoggedIn()) {
-      navigate('/login');  // Redirect to login if not logged in
+      navigate('/login');  
       return;
     }
 
     const fetchCategories = async () => {
       try {
-        const response = await fetch(ENDPOINTS.mealCategories, { // Use the meal categories endpoint
+        const response = await fetch(ENDPOINTS.mealCategories, { 
           headers: getAuthHeader(),
         });
         
-        // Check if response is OK
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
 
         const data = await response.json();
-        setCategories(data.categories);  // Assuming 'categories' is the correct field in the response
+        setCategories(data.categories);  
       } catch (error) {
         setError('Failed to load categories');
       }

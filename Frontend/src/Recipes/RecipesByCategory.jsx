@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { isLoggedIn, getAuthHeader } from '../Config/auth';
-import { ENDPOINTS } from '../Config/Api'; // Import the API endpoints
-import '../Css/RecipesByCategory.css'; // Import the CSS file for styling
+import { ENDPOINTS } from '../Config/Api';
+import '../Css/RecipesByCategory.css'; 
 
 const RecipesByCategory = () => {
   const { category } = useParams();
@@ -30,7 +30,7 @@ const RecipesByCategory = () => {
       } catch (error) {
         setError('Failed to load recipes');
       } finally {
-        setLoadingRecipes(false); // Set loading to false after fetching
+        setLoadingRecipes(false); 
       }
     };
 
@@ -50,7 +50,7 @@ const RecipesByCategory = () => {
       } catch (error) {
         setError('Failed to load favorites');
       } finally {
-        setLoadingFavorites(false); // Set loading to false after fetching
+        setLoadingFavorites(false); 
       }
     };
 
@@ -62,21 +62,19 @@ const RecipesByCategory = () => {
     const isFavorite = favorites.includes(recipeID);
     
     if (isFavorite) {
-      await removeFromFavorites(recipeID); // Remove from favorites API call
+      await removeFromFavorites(recipeID); 
     } else {
-      await addToFavorites(recipeID); // Add to favorites API call
+      await addToFavorites(recipeID); 
     }
   
-    // Update the favorites state
     setFavorites((prevFavorites) => {
       if (isFavorite) {
-        return prevFavorites.filter((id) => id !== recipeID); // Remove the recipe from favorites
+        return prevFavorites.filter((id) => id !== recipeID); 
       } else {
-        return [...prevFavorites, recipeID]; // Add the recipe to favorites
+        return [...prevFavorites, recipeID]; 
       }
     });
   
-    // Update the button labels
     setFavoriteLabels((prevLabels) => ({
       ...prevLabels,
       [recipeID]: isFavorite ? 'Add to Favorites' : 'Remove from Favorites',
@@ -123,7 +121,7 @@ const RecipesByCategory = () => {
       <h2>{category} Recipes</h2>
       {error && <p className="error">{error}</p>}
       {loadingRecipes || loadingFavorites ? (
-        <p>Loading...</p> // Loading message
+        <p>Loading...</p> 
       ) : (
         <div className="recipes-grid">
           {recipes.map((recipe) => (

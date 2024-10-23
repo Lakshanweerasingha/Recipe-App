@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { isLoggedIn, getAuthHeader } from '../Config/auth';
-import { ENDPOINTS } from '../Config/Api'; // Import the API endpoints
+import { ENDPOINTS } from '../Config/Api'; 
 import '../Css/RecipeDetails.css';
 
 const RecipeDetails = () => {
@@ -19,7 +19,7 @@ const RecipeDetails = () => {
     const fetchRecipeDetails = async () => {
       try {
         const response = await fetch(ENDPOINTS.recipeDetails(id), {
-          headers: getAuthHeader(), // Use the auth header
+          headers: getAuthHeader(), 
         });
 
         if (!response.ok) {

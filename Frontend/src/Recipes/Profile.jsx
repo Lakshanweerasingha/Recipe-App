@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MealCategories from './MealCategories';
-import { isLoggedIn, getAuthHeader } from '../Config/auth'; // Import your auth functions
-import { ENDPOINTS } from '../Config/Api'; // Import your API endpoints
+import { isLoggedIn, getAuthHeader } from '../Config/auth'; 
+import { ENDPOINTS } from '../Config/Api'; 
 import '../Css/Profile.css';
 
 const Profile = () => {
@@ -12,13 +12,11 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if the user is logged in
     if (!isLoggedIn()) {
       navigate('/login');
-      return; // Exit early if not logged in
+      return; 
     }
 
-    // Fetch user profile
     fetch(ENDPOINTS.userProfile, {
       headers: getAuthHeader(),
     })

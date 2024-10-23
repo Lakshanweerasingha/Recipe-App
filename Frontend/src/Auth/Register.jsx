@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Import Link
+import { useNavigate, Link } from 'react-router-dom';
 import { ENDPOINTS } from '../Config/Api';
 import '../Css/Register.css';
 
@@ -14,33 +14,28 @@ const Register = () => {
   const navigate = useNavigate();
 
   const validateInputs = () => {
-    // Simple validation rules
     if (!firstName || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
       setError('All fields are required.');
       return false;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError('Please enter a valid email address.');
       return false;
     }
 
-    // Phone number validation (10 digits)
     const phoneRegex = /^[0-9]{10}$/;
     if (!phoneRegex.test(phoneNumber)) {
       setError('Please enter a valid 10-digit phone number.');
       return false;
     }
 
-    // Password length validation
     if (password.length < 6) {
       setError('Password must be at least 6 characters.');
       return false;
     }
 
-    // Confirm password match
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return false;
@@ -64,7 +59,7 @@ const Register = () => {
       const data = await response.json();
 
       if (data.success) {
-        navigate('/login'); // Redirect to login page after successful registration
+        navigate('/login'); 
       } else {
         setError(data.msg);
       }

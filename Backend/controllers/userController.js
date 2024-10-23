@@ -4,9 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body } = require('express-validator');
 
-// Register a new user
 exports.register = [
-  // Input validation and sanitization
   body('firstName').not().isEmpty().trim().escape().withMessage('First name is required'),
   body('lastName').not().isEmpty().trim().escape().withMessage('Last name is required'),
   body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
@@ -20,7 +18,6 @@ exports.register = [
   }),
   
   async (req, res) => {
-    // Check validation result
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -51,9 +48,7 @@ exports.register = [
   },
 ];
 
-// Login user
 exports.login = [
-  // Validate input
   body('email').isEmail().normalizeEmail(),
   body('password').not().isEmpty(),
   
@@ -84,14 +79,9 @@ exports.login = [
   },
 ];
 
-// controllers/userController.js
-
-
-// Get user profile
-// controllers/userController.js
 exports.getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password'); // Ensure you're using req.user.id
+    const user = await User.findById(req.user.id).select('-password');
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
@@ -102,8 +92,6 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-
-// Add favorite recipe
 exports.addFavoriteRecipe = async (req, res) => {
   try {
     const { recipeID } = req.body;
@@ -125,17 +113,13 @@ exports.addFavoriteRecipe = async (req, res) => {
   }
 };
 
-
-// Get favorite recipes for the logged-in user
 exports.getFavoriteRecipes = async (req, res) => {
   try {
-    // Find the user by their ID
     const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
 
-    // Send back the favoriteRecipes array with only the recipe IDs
     res.json({ favoriteRecipes: user.favoriteRecipes });
   } catch (error) {
     console.error(error);
@@ -143,9 +127,6 @@ exports.getFavoriteRecipes = async (req, res) => {
   }
 };
 
-
-
-// Remove favorite recipe
 exports.removeFavoriteRecipe = async (req, res) => {
   try {
     const { recipeID } = req.params;

@@ -2,27 +2,27 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: center; /* Center the items in the container */
-  padding: 20px; /* Add padding around the container */
-  background-color: #f9f9f9; /* Light background for the container */
-  border-radius: 10px; /* Rounded corners for the container */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  justify-content: center; 
+  padding: 20px; 
+  background-color: #f9f9f9; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
 }
 
 .category-item {
   width: 120px;
   text-align: center;
-  transition: transform 0.3s; /* Smooth transition for hover effect */
+  transition: transform 0.3s; 
 }
 
 .category-item:hover {
-  transform: scale(1.05); /* Slightly enlarge on hover */
+  transform: scale(1.05); 
 }
 
 .category-link {
   display: block;
   text-decoration: none;
-  color: inherit; /* Use inherited text color */
+  color: inherit; 
 }
 
 .category-image {
@@ -30,23 +30,23 @@
   height: auto;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s; /* Smooth transition for hover effect */
+  transition: transform 0.3s; 
 }
 
 .category-image:hover {
-  transform: scale(1.1); /* Enlarge the image on hover */
+  transform: scale(1.1);
 }
 
 .category-name {
   margin-top: 8px;
   font-weight: bold;
   font-size: 14px;
-  color: #333; /* Darker shade for better readability */
+  color: #333; 
 }
 
 h2 {
   color: blueviolet;
-  text-align: center; /* Center align the heading */
-  margin-bottom: 20px; /* Space below the heading */
-  font-size: 24px; /* Slightly larger font size for emphasis */
+  text-align: center; 
+  margin-bottom: 20px; 
+  font-size: 24px; 
 }

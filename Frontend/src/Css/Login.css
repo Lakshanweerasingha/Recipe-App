@@ -1,11 +1,9 @@
-/* Reset basic styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Body styling */
 body {
   font-family: 'Arial', sans-serif;
   display: flex;
@@ -15,7 +13,6 @@ body {
   background-color: #f4f4f4;
 }
 
-/* Login form container */
 .login-container {
   background-color: white;
   padding: 40px;
@@ -25,7 +22,6 @@ body {
   text-align: center;
 }
 
-/* Logo styling */
 .login-container .logo {
   margin-bottom: 20px;
 }
@@ -34,33 +30,30 @@ body {
   width: 100px;
 }
 
-/* Form styling */
 form {
   display: flex;
   flex-direction: column;
 }
 
-/* Input styling */
 input[type="email"],
 input[type="password"] {
   padding: 12px;
   margin: 10px 0;
   border-radius: 8px;
-  border: 1px solid #ddd; /* Border color */
+  border: 1px solid #ddd; 
   font-size: 16px;
-  background-color: white; /* Set background color to white */
+  background-color: white; 
 }
 
-/* Change border color on focus */
 input[type="email"]:focus,
 input[type="password"]:focus {
-  border-color: #ff3e6c; /* Change border color on focus */
-  outline: none; /* Remove default outline */
+  border-color: #ff3e6c; 
+  outline: none; 
 }
 
 .login-container button {
   padding: 12px;
-  background-color: #ff6f91; /* Set background color to pink */
+  background-color: #ff6f91; 
   color: white;
   border: none;
   border-radius: 8px;
@@ -70,35 +63,30 @@ input[type="password"]:focus {
 }
 
 .login-container button:hover {
-  background-color: #ff85b1; /* Lighter shade of pink on hover */
+  background-color: #ff85b1; 
 }
 
-/* Styles for the account prompt */
 .login-container p {
-  margin-top: 20px; /* Space above the paragraph */
-  font-size: 14px; /* Font size */
+  margin-top: 20px; 
+  font-size: 14px; 
 }
 
-/* Link styling for the account prompt */
 .login-container a {
-  color: #ff3e6c; /* Link color */
-  text-decoration: none; /* Remove underline */
-  font-weight: bold; /* Make the text bold */
-  transition: color 0.3s; /* Smooth color transition */
+  color: #ff3e6c; 
+  text-decoration: none; 
+  font-weight: bold; 
+  transition: color 0.3s; 
 }
 
 .login-container a:hover {
-  color: #ff5a85; /* Lighter shade on hover */
+  color: #ff5a85; 
 }
-/* Styles for the account prompt */
 .login-container p {
-  margin-top: 20px; /* Space above the paragraph */
-  font-size: 14px; /* Font size */
-  color: black; /* Change text color to black */
+  margin-top: 20px; 
+  font-size: 14px; 
+  color: black; 
 }
 
-
-/* Error message */
 .error {
   color: red;
   font-size: 14px;

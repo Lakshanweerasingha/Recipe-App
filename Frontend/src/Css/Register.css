@@ -1,11 +1,9 @@
-/* Reset basic styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Body styling */
 body {
   font-family: 'Arial', sans-serif;
   display: flex;
@@ -15,17 +13,15 @@ body {
   background-color: #f4f4f4;
 }
 
-/* Register form container */
 .register-container {
   background-color: white;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 450px;  /* Adjust width for two columns */
+  width: 450px; 
   text-align: center;
 }
 
-/* Logo styling */
 .register-container .logo {
   margin-bottom: 20px;
 }
@@ -35,18 +31,16 @@ body {
 }
 
 .register-container p {
-  margin-top: 20px; /* Space above the paragraph */
-  font-size: 14px; /* Font size */
-  color: black; /* Change text color to black */
+  margin-top: 20px; 
+  font-size: 14px; 
+  color: black; 
 }
 
-/* Form styling */
 form {
   display: flex;
   flex-direction: column;
 }
 
-/* Row for two columns */
 .form-row {
   display: flex;
   justify-content: space-between;
@@ -54,10 +48,9 @@ form {
 }
 
 .form-column {
-  width: 48%;  /* Each column takes 48% of the row width */
+  width: 48%;  
 }
 
-/* Consistent input field styling */
 input[type="text"],
 input[type="email"],
 input[type="password"] {
@@ -66,20 +59,18 @@ input[type="password"] {
   border-radius: 8px;
   border: 1px solid #ddd;
   font-size: 16px;
-  width: 100%;  /* Ensure inputs take full column width */
-  background-color: white;  /* Set a consistent background color */
-  color: black;  /* Set text color to black */
+  width: 100%;  
+  background-color: white;  
+  color: black;  
 }
 
-/* Placeholder color */
 input::placeholder {
-  color: #aaa;  /* Light gray color for placeholders */
+  color: #aaa;  
 }
 
-/* Button styling */
 button {
   padding: 12px;
-  background-color: #ff3e6c !important;  /* Pink color with !important */
+  background-color: #ff3e6c !important;  
   color: white;
   border: none;
   border-radius: 8px;
@@ -90,10 +81,9 @@ button {
 }
 
 button:hover {
-  background-color: #ff5a85 !important; /* Darker pink on hover */
+  background-color: #ff5a85 !important; 
 }
 
-/* Error message */
 .error {
   color: red;
   font-size: 14px;

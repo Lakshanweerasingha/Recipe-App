@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ENDPOINTS } from '../Config/Api'; // Import the API endpoints
-import '../Css/Login.css';  // Import the CSS file
+import { ENDPOINTS } from '../Config/Api'; 
+import '../Css/Login.css';  
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,13 +9,11 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Basic email validation function
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
   };
 
-  // Basic password validation (e.g., minimum 6 characters)
   const validatePassword = (password) => {
     return password.length >= 6;
   };
@@ -23,7 +21,6 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Validate email and password
     if (!validateEmail(email)) {
       setError('Please enter a valid email address');
       return;
@@ -34,11 +31,10 @@ const Login = () => {
       return;
     }
 
-    // If validation passes, clear error
     setError('');
 
     try {
-      const response = await fetch(ENDPOINTS.login, {  // Use the login endpoint
+      const response = await fetch(ENDPOINTS.login, {  
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -47,8 +43,8 @@ const Login = () => {
       const data = await response.json();
 
       if (data.token) {
-        sessionStorage.setItem('token', data.token);  // Save token to localStorage
-        navigate('/profile');  // Redirect to profile page
+        sessionStorage.setItem('token', data.token);  
+        navigate('/profile');  
       } else {
         setError(data.msg);
       }

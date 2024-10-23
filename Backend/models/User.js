@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },      // First Name
-  lastName: { type: String, required: true },       // Last Name
-  email: { type: String, required: true, unique: true },  // Email
-  phoneNumber: { type: String, required: true },    // Phone Number
-  password: { type: String, required: true },       // Password
-  favoriteRecipes: [{ type: String }]               // Favorite Recipes (optional)
+  firstName: { type: String, required: true },      
+  lastName: { type: String, required: true },       
+  email: { type: String, required: true, unique: true },  
+  phoneNumber: { type: String, required: true },    
+  password: { type: String, required: true },      
+  favoriteRecipes: [{ type: String }]               
 });
 const User = mongoose.model('User', userSchema);
 module.exports = User;

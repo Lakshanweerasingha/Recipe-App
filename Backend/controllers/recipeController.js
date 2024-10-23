@@ -10,7 +10,6 @@ exports.getAllMealCategories = async (req, res) => {
   }
 };
 
-// Get recipes by category
 exports.getRecipesByCategory = [
   param('category').isString().not().isEmpty().trim().escape(),
   
@@ -25,7 +24,6 @@ exports.getRecipesByCategory = [
   },
 ];
 
-// Get single recipe details
 exports.getRecipeDetails = [
   param('id').isMongoId().withMessage('Invalid recipe ID format'),
 
