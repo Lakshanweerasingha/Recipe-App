@@ -109,7 +109,7 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     navigate('/login');
   };
 
@@ -122,7 +122,7 @@ const Profile = () => {
       <div className="profile-buttons">
         {!user && (
           <>
-            <button onClick={() => navigate('/signup')}>Signup</button>
+            <button onClick={() => navigate('/register')}>Signup</button>
             <button onClick={() => navigate('/login')}>Login</button>
           </>
         )}
@@ -183,6 +183,7 @@ const Profile = () => {
       )}
     </div>
   );
+
 };
 
 export default Profile;

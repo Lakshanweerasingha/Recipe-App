@@ -47,7 +47,7 @@ const Login = () => {
       const data = await response.json();
 
       if (data.token) {
-        localStorage.setItem('token', data.token);  // Save token to localStorage
+        sessionStorage.setItem('token', data.token);  // Save token to localStorage
         navigate('/profile');  // Redirect to profile page
       } else {
         setError(data.msg);
