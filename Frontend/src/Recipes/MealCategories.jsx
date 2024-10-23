@@ -38,7 +38,7 @@ const MealCategories = () => {
 
   return (
     <div>
-      <h2>Meal Categories</h2>
+      <h2>Meals</h2>
       {error && <p>{error}</p>}
       <div className="categories-container">
         {categories.slice(0, 6).map((category, index) => (
