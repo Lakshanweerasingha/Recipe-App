@@ -6,10 +6,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },  // Email
   phoneNumber: { type: String, required: true },    // Phone Number
   password: { type: String, required: true },       // Password
-  confirmPassword: { type: String, required: true }, // Confirm Password
   favoriteRecipes: [{ type: String }]               // Favorite Recipes (optional)
 });
-
 const User = mongoose.model('User', userSchema);
-
 module.exports = User;

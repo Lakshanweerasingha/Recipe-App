@@ -18,7 +18,7 @@ exports.register = [
     }
     return true;
   }),
-
+  
   async (req, res) => {
     // Check validation result
     const errors = validationResult(req);
@@ -27,7 +27,6 @@ exports.register = [
     }
 
     const { firstName, lastName, email, phoneNumber, password } = req.body;
-
     try {
       const existingUser = await User.findOne({ email });
       if (existingUser) {
@@ -41,7 +40,7 @@ exports.register = [
         email,
         phoneNumber,
         password: hashedPassword,
-      });
+      });   
       await newUser.save();
 
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -56,8 +55,8 @@ exports.register = [
 exports.login = [
   // Validate input
   body('email').isEmail().normalizeEmail(),
-  body('password').not().isEmpty().withMessage('Password is required'),
-
+  body('password').not().isEmpty(),
+  
   async (req, res) => {
     const { email, password } = req.body;
 
@@ -85,10 +84,14 @@ exports.login = [
   },
 ];
 
+// controllers/userController.js
+
+
 // Get user profile
+// controllers/userController.js
 exports.getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id).select('-password'); // Ensure you're using req.user.id
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
@@ -98,6 +101,7 @@ exports.getProfile = async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 };
+
 
 // Add favorite recipe
 exports.addFavoriteRecipe = async (req, res) => {
@@ -121,14 +125,17 @@ exports.addFavoriteRecipe = async (req, res) => {
   }
 };
 
+
 // Get favorite recipes for the logged-in user
 exports.getFavoriteRecipes = async (req, res) => {
   try {
+    // Find the user by their ID
     const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
 
+    // Send back the favoriteRecipes array with only the recipe IDs
     res.json({ favoriteRecipes: user.favoriteRecipes });
   } catch (error) {
     console.error(error);
@@ -136,11 +143,13 @@ exports.getFavoriteRecipes = async (req, res) => {
   }
 };
 
+
+
 // Remove favorite recipe
 exports.removeFavoriteRecipe = async (req, res) => {
   try {
     const { recipeID } = req.params;
-
+    
     if (!recipeID) {
       return res.status(400).json({ msg: 'Recipe ID is required' });
     }
